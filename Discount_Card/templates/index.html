@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Homepage
+{% endblock %}
+
+{% block main %}
+<div class="container mt-4">
+    {% if member and member.active_subscription %}
+    <div class="card mb-4 card-custom">
+        <div class="card-header text-end">
+            <img src="/static/medmenu.jpg" alt="Logo" class="logo">
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6 text-start"><strong>Member Number:</strong></div>
+                <div class="col-6 text-end text-nowrap">{{ member.id }}</div>
+            </div>
+            <div class="row">
+                <div class="col-6 text-start"><strong>Name:</strong></div>
+                <div class="col-6 text-end text-nowrap">{{ member.full_name }}</div>
+            </div>
+            <div class="row">
+                <div class="col-6 text-start"><strong>Start Date:</strong></div>
+                <div class="col-6 text-end">{{ member.start_date }}</div>
+            </div>
+            <div class="row">
+                <div class="col-6 text-start"><strong>Expiry Date:</strong></div>
+                <div class="col-6 text-end">{{ member.valid_until }}</div>
+            </div>
+            <div class="row mb-0">
+                <div class="col-12 rtl-text">يتم تقديم الخدمة نقدًا طبقًا لأسعار التعاقد</div>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+            {{ current_time }}
+        </div>
+    </div>
+    <div class="text-center">
+        <a href="{% url 'Discount_Card:download_card_pdf' member.id %}" class="btn btn-primary" id="download_pdf">Download PDF</a>
+    </div>
+    {% elif member and not member.active_subscription and member.renewals < 1 %}
+        <div class="alert alert-info">
+            <h4 class="alert-heading">Enjoy Medical Services Discount!</h4>
+            <p>Click <a href="{% url 'Discount_Card:payment' %}" class="alert-link">here</a> to purchase a card.</p>
+        </div>
+    {% elif member and not member.active_subscription and member.renewals > 0 %}
+        <div class="alert alert-info">
+            <h4 class="alert-heading">Renew Your Discount Card</h4>
+            <p>Your discount card has expired. Click <a href="{% url 'Discount_Card:payment' %}" class="alert-link">here</a> to renew.</p>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+    const DownloadButton = document.getElementById('download_pdf');
+    DownloadButton.addEventListener('click', () => {
+        DownloadButton.hidden = true
+        const label = document.createElement("button")
+        label.textContent = "Card downloaded"
+        label.className = "btn btn-secondary"
+        label.disabled = true
+        DownloadButton.parentNode.appendChild(label)
+    })
+</script>
+{% endblock %}
+
+

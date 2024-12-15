@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Static files -->
+    {% load static %}
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+    <title>Discount Card</title>
+    <style>
+        .card-custom {
+            background: linear-gradient(rgba(17, 143, 142, 1), rgba(9, 101, 133, 1));
+            color: white;
+            border: none;
+            border-radius: 0.25rem;
+            padding: 20px;
+            font-family: 'Inter', sans-serif;
+        }
+        .card-custom .card-header,
+        .card-custom .card-footer {
+            font-family: 'Inter', sans-serif;
+            color: rgba(255, 255, 255, 1);
+            font-weight: 600;
+        }
+        .card-custom .card-header {
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+        }
+        .card-custom .card-text {
+            font-size: 1rem;
+        }
+        .card-custom .card-footer {
+            font-size: 0.75rem;
+            margin-top: 15px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+        .rtl-text {
+            direction: rtl;
+            text-align: right;
+        }
+        .text-muted {
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="card card-custom">
+        <div class="card-header">
+            My Discount Card
+        </div>
+        <div class="card-body">
+            <p class="card-text">
+                <strong>Member Number:</strong> {{ member.id }}<br>
+                <strong>Name:</strong> {{ member.full_name }}<br>
+                <strong>Start Date:</strong> {{ member.start_date }}<br>
+                <strong>Expiry Date:</strong> {{ member.valid_until }}<br>
+                <span class="rtl-text">يتم تقديم الخدمة نقدًا طبقًا لأسعار التعاقد</span>
+            </p>
+        </div>
+        <div class="card-footer text-muted">
+            {{ current_time }}
+        </div>
+    </div>
+</body>
+</html>

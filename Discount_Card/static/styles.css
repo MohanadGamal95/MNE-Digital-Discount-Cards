@@ -1,0 +1,233 @@
+@font-face{
+    font-family: 'Lakes Neue';
+    src: url('/static/fonts/TT Lakes Neue Trial Extended Black Italic.ttf') format('truetype');
+}
+
+.navbar-brand{
+        font-family: 'Lakes Neue', sans-serif;
+        font-size: xx-large;    
+    }
+/* Example color variables based on your Figma design */
+:root {
+    --primary-color: #123456; /* Replace with your primary color */
+    --secondary-color: #abcdef; /* Replace with your secondary color */
+    --text-color: #ffffff; /* Replace with your text color */
+}
+
+/* Custom Navbar Styles based on header-custom */
+.navbar-custom {
+    background: linear-gradient(rgba(17, 143, 142, 1), rgba(9, 101, 133, 1));
+    color: rgba(255, 255, 255, 1);
+}
+
+.navbar-custom .navbar-brand {
+    color: rgba(255, 255, 255, 1);
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.navbar-custom .navbar-brand small {
+    color: rgba(255, 255, 255, 1);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    opacity: 0.7;
+}
+
+.navbar-custom .nav-link, .navbar-custom .dropdown-item {
+    color: rgba(255, 255, 255, 1);
+}
+
+.navbar-custom .nav-link:hover, .navbar-custom .dropdown-item:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Custom Dropdown Menu Styles */
+.dropdown-menu {
+    background: linear-gradient(rgba(17, 143, 142, 1), rgba(9, 101, 133, 1));
+    border: none; /* Remove border */
+}
+
+.dropdown-item {
+    color: rgba(255, 255, 255, 1);
+}
+
+.dropdown-item:hover {
+    background-color: rgba(9, 101, 133, 1); /* Slightly darker on hover */
+}
+
+
+
+/* Global styles */
+* {
+    box-sizing: border-box;
+  }
+body {
+    font-size: 14px;
+}
+.container-custom {
+    background: rgba(255, 255, 255, 1);
+    opacity: 1;
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(177, 177, 177, 1);
+    border-radius: 9px;
+}
+
+.header-custom {
+    width: 100%;
+    height: 121px;
+    background: linear-gradient(rgba(17, 143, 142, 1), rgba(9, 101, 133, 1));
+    color: rgba(255, 255, 255, 1);
+    padding: 20px;
+}
+
+.header-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    margin: 0;
+}
+
+.header-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    opacity: 0.7;
+}
+
+.label-custom {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 1);
+    display: block;
+    margin-top: 10px;
+}
+
+.input-custom, 
+.form-group input { 
+    color: #495057; /* Darker color for typed text */
+    border: 1px solid rgba(177, 177, 177, 1);
+    border-radius: 9px;
+    padding: 5px; /* Reduced padding */
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px; /* Reduced font size */
+
+    width: 100%;
+    margin-bottom: 10px; /* Reduced margin */
+}
+  
+.input-custom:focus,
+.form-group input:focus {
+    border-color: #80bdff; /* Bootstrap's default focus border color */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Bootstrap's default focus shadow */
+    outline: 0; /* Remove outline */
+}
+.submit-btn {
+    background-color: #007bff;
+    color: #fff;
+    width: 100%;
+    padding: 5px; /* Reduced padding */
+    border: none;
+    border-radius: 5px;
+    font-size: 16px; /* Reduced font size */
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+}
+  
+.signin-link {
+display: block;
+text-align: left; /* Left aligned text */
+margin-top: 10px;
+font-size: 14px;
+}
+  
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* Custom Dropdown Menu Styles */
+.dropdown-menu {
+    background: linear-gradient(rgba(17, 143, 142, 1), rgba(9, 101, 133, 1));
+    border: none; /* Remove border */
+    left: auto; /* Allow positioning adjustment */
+    right: 0; /* Align to the right */
+    transform: translateX(100%); /* Move leftwards when it's too wide */
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    left: auto; /* Allow positioning adjustment */
+    right: 0; /* Align to the right */
+    transform: translateX(0); /* Reset position on hover */
+}
+
+
+/* Footer Styles */
+.footer-custom {
+    background-color: #004085; /* Change to match your brand colors */
+    color: #ffffff;
+    margin-top: auto;
+}
+
+.footer-custom a {
+    color: #ffffff;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.footer-custom a:hover {
+    text-decoration: underline;
+}
+
+
+.card-custom {
+    background: white; /* Background color for card body */
+    color: #333; /* Text color for card body */
+    border: 1px solid #004085; /* Border color */
+    border-radius: 0.25rem;
+    font-family: 'Inter', sans-serif;
+    max-width: 300px; /* Compact design */
+    margin: 0 auto;
+}
+.card-custom .card-header {
+    background: linear-gradient(rgba(17, 143, 142, 1), rgba(9, 101, 133, 1)); /* Matching the navbar gradient */
+    color: white;
+    font-weight: 600;
+    padding: 10px;
+    border-bottom: 1px solid white; /* White border for contrast */
+    text-align: end;
+}
+.card-custom .card-header .logo {
+    max-height: 70px; /* Adjust the logo size */
+    width: auto;
+    max-width: 100%;
+}
+.card-custom .card-body {
+    padding: 15px;
+}
+.card-custom .card-body .row {
+    margin-bottom: 10px;
+}
+.card-custom .card-footer {
+    font-size: 0.75rem;
+    margin-top: 10px;
+    border-top: 1px solid #004085; /* Border color */
+    padding-top: 10px;
+}
+.text-nowrap {
+    white-space: nowrap; /* Prevent wrapping */
+}
+.rtl-text {
+    direction: rtl;
+    text-align: right;
+}
+.text-muted {
+    opacity: 0.6;
+}

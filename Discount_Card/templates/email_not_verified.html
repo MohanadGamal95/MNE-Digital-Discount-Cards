@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Resend Activation
+{% endblock %}
+
+{% block main %}
+
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <!-- Card for better design -->
+                <div class="card shadow-lg">
+                    <div class="card-body">
+                        <h2 class="text-center text-primary mb-4">Activate Your Account</h2>
+                        <p class="text-center mb-3">Your account is not yet activated. Please check your email for the activation link.</p>
+                        <p class="text-center mb-3">If you haven't received the email, please check your spam or junk folders.</p>
+
+                        <div class="text-center">
+                            <a href="{% url 'Discount_Card:resend_activation' %}" class="btn btn-primary btn-lg">Resend Activation Email</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

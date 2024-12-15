@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Homepage
+{% endblock %}
+
+{% block main %}
+<div class="container mt-4">
+    {% if member and member_active_subscription %}
+        <div class="card mb-4 card-custom">
+            <div class="card-header">
+                My Discount Card
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    <strong>Name:</strong> {{ member.full_name }}<br>
+                    <strong>Start Date:</strong> {{ member.start_date }}<br>
+                    <strong>Expiry Date:</strong> {{ member.valid_until }}<br>
+                    <span class="rtl-text">يتم تقديم الخدمة نقدًا طبقًا لأسعار التعاقد</span>
+                </p>
+            </div>
+            <div class="card-footer text-muted">
+                {{ current_time }}
+            </div>
+        </div>
+        <a href="{% url 'Discount_Card:download_card_pdf' member.id %}" class="btn btn-primary">Download PDF</a>
+    {% else %}
+        <!-- Other member-related messages go here -->
+    {% endif %}
+</div>
+{% endblock %}

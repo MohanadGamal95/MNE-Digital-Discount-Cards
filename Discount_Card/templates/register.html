@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+<div class="container mt-4 d-flex justify-content-between">
+    <div class="d-flex flex-column align-items-start"> <!-- Added container for logo and text -->
+        <img src="/static/MNEbackground.jpg" alt="MedNet Logo" class="img-fluid" style="max-width: fit-content; max-height: fit-content;">
+        <p class="mt-3 text-start">
+            A Munich Re company<br>
+            We now offer a fully digital discount service at our expanding medical network<br>
+            Visit our website at <a href="https://www.mednet-global.com/" target="_blank">https://www.mednet-global.com/</a>
+        </p>
+    </div>
+    <div class="col-md-5"> <!-- Adjusted the column width to make the card smaller -->
+        <div class="container-custom">
+            <div class="header-custom text-start">
+                <h5>Make a new account</h5>
+                <p>Please fill the fields below</p>
+            </div>
+            <div class="card-body text-start"> <!-- Ensured all text is left-aligned -->
+                <form action="{% url 'Discount_Card:register' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="id_username" class="label-custom">Username</label>
+                        <input type="text" name="username" class="input-custom" id="id_username" placeholder="Enter your username" value="{{ form.username.value|default_if_none:'' }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_email" class="label-custom">Email</label>
+                        <input type="email" name="email" class="input-custom" id="id_email" placeholder="example@example.com" value="{{ form.email.value|default_if_none:'' }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_first_name" class="label-custom">First Name</label>
+                        <input type="text" name="first_name" class="input-custom" id="id_first_name" placeholder="Mohammed" value="{{ form.first_name.value|default_if_none:'' }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_last_name" class="label-custom">Last Name</label>
+                        <input type="text" name="last_name" class="input-custom" id="id_last_name" placeholder="Mohammed Family" value="{{ form.last_name.value|default_if_none:'' }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_phone_number" class="label-custom">Phone Number</label>
+                        <input type="tel" name="phone_number" class="input-custom" id="id_phone_number" placeholder="+20xxxxxxxxxx" value="{{ form.phone_number.value|default_if_none:'' }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_password1" class="label-custom">Password</label>
+                        <input type="password" name="password1" class="input-custom" id="id_password1" placeholder="Enter your password">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_password2" class="label-custom">Confirm Password</label>
+                        <input type="password" name="password2" class="input-custom" id="id_password2" placeholder="Confirm your password">
+                    </div>
+                    <button type="submit" class="submit-btn mt-3">Sign Up</button>
+                    <small class="signin-link">Already have an account? <a href="{% url 'Discount_Card:login' %}">Log in</a></small>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

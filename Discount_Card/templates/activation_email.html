@@ -1,0 +1,12 @@
+<!-- templates/Discount_Card/activation_email.html -->
+<p>Hi {{ user.first_name }},</p>
+
+<p>Thank you for registering at Mednet's Digital Discount Card.
+    To complete the registration, please click the link below to activate your account:</p>
+
+    <p><a href="{{ activation_url }}">Activate your account</a></p>
+    <p>Alternativley, you can copy the following link</p>
+    <p>{{ activation_url }} </p>
+
+
+<p>If you didn't register for an account, please ignore this email.</p>
