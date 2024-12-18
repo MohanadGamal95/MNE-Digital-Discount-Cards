@@ -1,0 +1,11 @@
+# Create a new virtual enviroment
+python -m venv mne-ddc
+
+# Activate the virtual enviroment 
+source mne-ddc/bin/activate
+
+# install all requriements
+pip install -r requirements.txt
+
+# Run the app
+python3 manage.py runserver
