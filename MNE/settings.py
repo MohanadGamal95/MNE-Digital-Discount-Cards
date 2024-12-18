@@ -148,13 +148,13 @@ STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'Discount_Card/static')]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'mohanadg95@gmail.com'
-EMAIL_HOST_PASSWORD = 'ffwd gjdi rted feno'
-SERVER_EMAIL = 'mohanadg95@gmail.com'
+EMAIL_BACKEND = env('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend') 
+EMAIL_HOST = env('EMAIL_HOST') 
+EMAIL_PORT = env.int('EMAIL_PORT')
+EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
+EMAIL_HOST_USER = env('EMAIL_HOST_USER') 
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+SERVER_EMAIL = env('SERVER_EMAIL')
 
 
 MESSAGE_TAGS = {
