@@ -11,8 +11,15 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 import os
-from pathlib import Path
 from django.contrib.messages import constants as message_constants
+from dotenv import load_dotenv
+from pathlib import Path
+import environ
+
+load_dotenv()
+
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,9 +32,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-7k14sgy=&4qirw029g-1ch*p(^b7_&z^se2(mwc9_a3&mou$$d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG', default=False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
 
 # Application definition
 
@@ -77,8 +84,12 @@ WSGI_APPLICATION = 'MNE.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': env('DATABASE_ENGINE', default='django.db.backends.mysql'),
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER', default=''),
+        'PASSWORD': env('DATABASE_PASSWORD', default=''),
+        'HOST': env('DATABASE_HOST', default='localhost'),
+        'PORT': env.int('DATABASE_PORT', default='5432'),
     }
 }
 

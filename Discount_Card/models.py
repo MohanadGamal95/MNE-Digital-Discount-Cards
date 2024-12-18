@@ -3,7 +3,6 @@ from django.db import models
 from django.utils import timezone
 from datetime import timedelta
 from django.core.validators import RegexValidator
-
 class User(AbstractUser):
     email = models.EmailField(unique=True)
     phone_number = models.CharField(null=True, blank=True, max_length=14,
