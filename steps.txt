@@ -1,7 +1,7 @@
-# Create a new virtual enviroment
+# Create a new virtual enviroment (dev only)
 python -m venv mne-ddc
 
-# Activate the virtual enviroment 
+# Activate the virtual enviroment (dev only)
 source mne-ddc/bin/activate
 
 # Install mysql binares on OS
@@ -10,13 +10,16 @@ sudo apt install libmysqlclient-dev
 # install all requriements
 pip install -r requirements.txt
 
-# Run the app
-python3 manage.py runserver
-
 # Adjust the enviroment variables in .env or export them in the shell
 .env
 
 # Run the migrations
 python3 manage.py makemigrations
 python3 manage.py migrate
+
+# Create a superuser account (if non exists)
+python3 manage.py createsuperuser
+
+# Run the app
+python3 manage.py runserver
 
