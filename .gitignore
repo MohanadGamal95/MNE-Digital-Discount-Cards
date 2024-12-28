@@ -6,4 +6,6 @@ mne-ddc
 *.sqlite
 *.sqlite3
 *.log
+venv/
+migrations/
 

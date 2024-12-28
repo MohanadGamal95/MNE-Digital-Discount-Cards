@@ -2,15 +2,21 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
 from datetime import timedelta
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, MinLengthValidator
 class User(AbstractUser):
     email = models.EmailField(unique=True)
+    full_name = models.CharField(max_length=100)
+    national_id = models.CharField(
+        max_length=14,
+        unique=True,
+        validators=[MinLengthValidator(9)]
+    )
     phone_number = models.CharField(null=True, blank=True, max_length=14,
         validators=[RegexValidator(regex=r'^\+20\d{10}$')]
     )
     email_verified = models.BooleanField(default=False)
 
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'email']
+    REQUIRED_FIELDS = ['email', 'full_name', 'national_id']
     
     @property
     def member(self):
@@ -45,14 +51,11 @@ class Member(models.Model):
             models.Index(fields=['payment_status', 'valid_until'])
         ]
 
-    def full_name(self):
-        return f"{self.user.first_name} {self.user.last_name}"
-
     def active_subscription(self):
         return self.payment_status == 'verified' and (self.valid_until is None or self.valid_until >= timezone.now().date())
 
     def __str__(self):
-        return f"{self.full_name()} - {self.user.email}" 
+        return f"{self.user.full_name} - {self.user.email}" 
 
 class Coupon(models.Model):
     code = models.CharField(max_length=12)

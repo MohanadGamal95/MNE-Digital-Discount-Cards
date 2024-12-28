@@ -4,18 +4,23 @@ from .models import User, Member, Coupon, CouponUser, Network
 # Register the User model
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('email', 'first_name', 'last_name', 'phone_number', 'is_staff', 'is_active')
-    search_fields = ('email', 'first_name', 'last_name')
+    list_display = ('email', 'full_name', 'national_id', 'is_staff', 'is_active')
+    search_fields = ('email', 'full_name', 'national_id')
     list_filter = ('is_staff', 'is_active')
     ordering = ('email',)
+    filter_horizontal = ('groups', 'user_permissions')
 
 # Register the Member model
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
-    list_display = ('full_name', 'user', 'payment_status', 'valid_until', 'active_subscription')
-    search_fields = ('user__email', 'user__first_name', 'user__last_name')
+    list_display = ('get_full_name', 'user', 'payment_status', 'valid_until', 'active_subscription')
+    search_fields = ('user__email', 'user__full_name')
     list_filter = ('payment_status', 'valid_until')
     ordering = ('user__email',)
+
+    def get_full_name(self, obj):
+        return obj.user.full_name
+    get_full_name.short_description = 'Full Name'
 
 # Register the Coupon model
 @admin.register(Coupon)

@@ -14,13 +14,13 @@
             Visit our website at <a href="https://www.mednet-global.com/" target="_blank">https://www.mednet-global.com/</a>
         </p>
     </div>
-    <div class="col-md-5"> <!-- Adjusted the column width to make the card smaller -->
+    <div class="col-md-5"> 
         <div class="container-custom">
             <div class="header-custom text-start">
                 <h5>Make a new account</h5>
                 <p>Please fill the fields below</p>
             </div>
-            <div class="card-body text-start"> <!-- Ensured all text is left-aligned -->
+            <div class="card-body text-start">
                 <form action="{% url 'Discount_Card:register' %}" method="post">
                     {% csrf_token %}
                     <div class="form-group">
@@ -32,12 +32,12 @@
                         <input type="email" name="email" class="input-custom" id="id_email" placeholder="example@example.com" value="{{ form.email.value|default_if_none:'' }}">
                     </div>
                     <div class="form-group">
-                        <label for="id_first_name" class="label-custom">First Name</label>
-                        <input type="text" name="first_name" class="input-custom" id="id_first_name" placeholder="Mohammed" value="{{ form.first_name.value|default_if_none:'' }}">
+                        <label for="id_national_id" class="label-custom">National ID/Passport</label>
+                        <input type="text" name="national_id" class="input-custom" id="id_national_id" placeholder="Please enter your national ID/Passport" value="{{ form.national_id.value|default_if_none:'' }}">
                     </div>
                     <div class="form-group">
-                        <label for="id_last_name" class="label-custom">Last Name</label>
-                        <input type="text" name="last_name" class="input-custom" id="id_last_name" placeholder="Mohammed Family" value="{{ form.last_name.value|default_if_none:'' }}">
+                        <label for="id_full_name" class="label-custom">Full Name</label>
+                        <input type="text" name="full_name" class="input-custom" id="id_full_name" placeholder="Mohammed" value="{{ form.full_name.value|default_if_none:'' }}">
                     </div>
                     <div class="form-group">
                         <label for="id_phone_number" class="label-custom">Phone Number</label>

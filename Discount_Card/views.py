@@ -53,7 +53,7 @@ class CustomLoginView(LoginView):
             messages.error(self.request, 'Please verify your email first')
             return redirect('Discount_Card:email_not_verified')
         else:
-            messages.success(self.request, f'Welcome, {user.first_name}!')
+            messages.success(self.request, f'Welcome, {user.full_name}!')
             return super().form_valid(form)  # Proceed with the normal flow (redirection)
 
     def form_invalid(self, form):
@@ -164,7 +164,7 @@ def download_card_pdf(request, member_id):
         'member': member,
         'current_time': timezone.now() # Pass current time to the template })
     })
-    pdf = HTML(string=html).write_pdf()
+    pdf = HTML(string=html, base_url=request.build_absolute_uri('/')).write_pdf()
 
     response = HttpResponse(pdf, content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="Discount_Card_{member_id}.pdf"'
