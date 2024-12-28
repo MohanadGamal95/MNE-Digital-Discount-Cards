@@ -179,3 +179,5 @@ MESSAGE_TAGS = {
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
