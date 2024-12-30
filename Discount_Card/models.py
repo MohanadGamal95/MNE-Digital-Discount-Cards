@@ -105,19 +105,9 @@ class CouponUser(models.Model):
 class Network(models.Model):
     provider_code = models.CharField(max_length=8)
     provider_name = models.CharField(max_length=1000)
-    governate = models.CharField(max_length=64)
+    governorate = models.CharField(max_length=64)
     area = models.CharField(max_length=256)
-    PROVIDER_TYPES = [
-        ('C', 'Clinic'),
-        ('H', 'Hospital'),
-        ('L', 'Laboratory'),
-        ('S', ' Medical Supplies Company'),
-        ('O', 'Optics Shop'),
-        ('M', 'Pharmacy'),
-        ('Y', 'Physiotherapy Center'),
-        ('P', 'Poly Clinics')
-    ]
-    provider_type = models.CharField(max_length=64, choices=PROVIDER_TYPES)
+    provider_type = models.CharField(max_length=64)
     provider_specialty = models.CharField(max_length=256)
     address = models.TextField()
     longitude = models.DecimalField(max_digits=27, decimal_places=24)
@@ -126,3 +116,11 @@ class Network(models.Model):
 
     def __str__(self):
         return f"{self.provider_name} {self.provider_code}"
+
+
+class ExcelUpload(models.Model):
+    file = models.FileField(upload_to='uploads/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.file.name

@@ -20,6 +20,9 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('password_reset_complete', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     #Payment 
-    path('payment', views.payment, name='payment')
+    path('payment', views.payment, name='payment'),
+    path('api/providers', views.fetch_providers, name='fetch_providers'),
+    path('api/filters', views.fetch_filters, name='fetch_filters'),
+    path('api/filter_results', views.fetch_filtered_results, name='fetch_filtered_results')
 ]
 

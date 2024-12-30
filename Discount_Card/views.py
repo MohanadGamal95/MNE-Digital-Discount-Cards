@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, get_user_model, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.db.models import Q
+from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from .decorators import email_verified_required
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.views import LoginView
@@ -14,6 +15,7 @@ from django.utils import timezone
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from datetime import timedelta
+import json
 from .forms import RegistrationForm
 from . import models
 from weasyprint import HTML
@@ -171,10 +173,51 @@ def download_card_pdf(request, member_id):
 
     return response
 
+# Fetch providers for autocomplete
+def fetch_providers(request):
+    query = request.GET.get('query', '')
+    providers = models.Network.objects.filter(provider_name__icontains=query)[:5]
+    data = list(providers.values('provider_name', 'latitude', 'longitude', 'address', 'phone_number'))
+    return JsonResponse(data, safe=False)
+
+# Fetch filters
+def fetch_filters(request):
+    governates = models.Network.objects.values_list('governorate', flat=True).distinct()
+    areas = models.Network.objects.values('area', 'governorate').distinct()
+    provider_types = models.Network.objects.values_list('provider_type', flat=True).distinct()
+    specialties = models.Network.objects.values_list('provider_specialty', flat=True).distinct()
+    data = {
+        'governates': list(governates),
+        'areas': list(areas),
+        'provider_types': list(provider_types),
+        'specialties': list(specialties)
+    }
+    return JsonResponse(data)
+
+# Fetch filtered results
+def fetch_filtered_results(request):
+    filters = json.loads(request.body)
+    query = Q()
+    if filters.get('governate'):
+        query &= Q(governorate=filters['governate'])
+    if filters.get('area'):
+        query &= Q(area=filters['area'])
+    if filters.get('provider_type'):
+        query &= Q(provider_type=filters['provider_type'])
+    if filters.get('speciality'):
+        query &= Q(provider_specialty=filters['speciality'])
+    results = models.Network.objects.filter(query)
+    data = list(results.values('provider_name', 'latitude', 'longitude', 'address', 'phone_number'))
+    return JsonResponse(data, safe=False)
+
 @email_verified_required
 @login_required
 def medical_network(request):
-    return render(request, 'network.html')
+    try:
+        member = models.Member.objects.get(user=request.user)
+    except models.Member.DoesNotExist:
+        member = None
+    return render(request, 'network.html', {'member': member})
 
 
 

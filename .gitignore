@@ -8,4 +8,4 @@ mne-ddc
 *.log
 venv/
 migrations/
-
+uploads/
