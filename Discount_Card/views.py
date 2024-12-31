@@ -176,8 +176,10 @@ def download_card_pdf(request, member_id):
 # Fetch providers for autocomplete
 def fetch_providers(request):
     query = request.GET.get('query', '')
-    providers = models.Network.objects.filter(provider_name__icontains=query)[:5]
-    data = list(providers.values('provider_name', 'latitude', 'longitude', 'address', 'phone_number'))
+    providers = models.Network.objects.filter(provider_name__icontains=query).values(
+        'provider_name', 'latitude', 'longitude', 'address', 'phone_number'
+    )
+    data = list(providers)
     return JsonResponse(data, safe=False)
 
 # Fetch filters
