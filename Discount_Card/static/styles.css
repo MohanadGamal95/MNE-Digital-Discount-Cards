@@ -43,20 +43,38 @@
 }
 
 /* Custom Dropdown Menu Styles */
-.dropdown-menu {
+#navbar .dropdown-menu {
     background: linear-gradient(rgba(17, 143, 142, 1), rgba(9, 101, 133, 1));
     border: none; /* Remove border */
 }
 
-.dropdown-item {
+#navbar.dropdown-item {
     color: rgba(255, 255, 255, 1);
 }
 
-.dropdown-item:hover {
+#navbar .dropdown-item:hover {
     background-color: rgba(9, 101, 133, 1); /* Slightly darker on hover */
 }
 
-
+#autocomplete-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: none;
+    background-color: rgba(255, 255, 255, 0.8); /* Transparent background */
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
+}
+#network_search_bar .dropdown-item {
+    padding: 0.25rem 1.5rem;
+    cursor: pointer;
+}
+#network_search_bar .dropdown-item:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
 
 /* Global styles */
 * {
@@ -192,7 +210,8 @@ font-size: 14px;
     border: 1px solid #004085; /* Border color */
     border-radius: 0.25rem;
     font-family: 'Inter', sans-serif;
-    max-width: 300px; /* Compact design */
+    max-width: 30%; /* Compact design */
+    min-width: 350px;
     margin: 0 auto;
 }
 .card-custom .card-header {

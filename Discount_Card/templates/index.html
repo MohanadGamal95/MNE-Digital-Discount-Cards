@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block main %}
-<div class="container mt-4">
+<div class="flex-container mt-4">
     {% if member and member.active_subscription %}
     <div class="card mb-4 card-custom">
         <div class="card-header text-end">
@@ -17,8 +17,12 @@
                 <div class="col-6 text-end text-nowrap">{{ member.id }}</div>
             </div>
             <div class="row">
-                <div class="col-6 text-start"><strong>Name:</strong></div>
-                <div class="col-6 text-end text-nowrap">{{ user.full_name }}</div>
+                <div class="col-3 text-start"><strong>Name:</strong></div>
+                <div class="col-9 text-end">{{ user.full_name }}</div>
+            </div>
+            <div class="row">
+                <div class="col-6 text-start"><strong>ID/Passport:</strong></div>
+                <div class="col-6 text-end text-nowrap">{{ user.national_id }}</div>
             </div>
             <div class="row">
                 <div class="col-6 text-start"><strong>Start Date:</strong></div>

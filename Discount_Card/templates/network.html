@@ -1,3 +1,4 @@
+<!-- filepath: /home/mohanad/Projects/MNE Projects/MNE/Discount_Card/templates/network.html -->
 {% extends "layout.html" %}
 
 {% block title %}
@@ -9,10 +10,14 @@
         {% csrf_token %}
         <div class="container" id="filter-container">
             <div class="row justify-content-center mt-2">
-                <div class="col-8">
-                    <input class="form-control form-control-sm" name="provider_name" id="provider_name" type="search" placeholder="Search for Provider Name" aria-label="Search">
-                    <div id="autocomplete-results" class="autocomplete-results"></div>
-                    <small id="wrongname" style="color: red; display: none;">Provider does not exist</small>
+                <div class="col-8 position-relative">
+                    <div class="dropdown" id="network_search_bar">
+                        <input autocomplete="off" class="form-control form-control-sm dropdown-toggle" name="provider_name" id="provider_name" type="search" placeholder="Search for Provider Name" aria-label="Search" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div id="autocomplete-results" class="autocomplete-dropdown" aria-labelledby="provider_name">
+                            <!-- Autocomplete results will be appended here -->
+                        </div>
+                        <small id="wrongname" style="color: red; display: none;">Provider does not exist</small>
+                    </div>
                 </div>
                 <div class="col-1">
                     <button class="btn btn-success btn-sm me-2" type="button" id="search_button">Search</button>
@@ -113,6 +118,28 @@
                 const results = await fetchProviders(query);
                 updateMap(results);
             });
+
+            function showAutocompleteResults(results) {
+                const autocompleteResults = document.getElementById('autocomplete-results');
+                autocompleteResults.innerHTML = '';
+
+                if (results.length > 0) {
+                    autocompleteResults.style.display = 'block';
+                    results.forEach(result => {
+                        const div = document.createElement('div');
+                        div.textContent = result.provider_name;
+                        div.classList.add('autocomplete-item');
+                        div.addEventListener('click', () => {
+                            document.getElementById('provider_name').value = result.provider_name;
+                            autocompleteResults.innerHTML = '';
+                            autocompleteResults.style.display = 'none';
+                        });
+                        autocompleteResults.appendChild(div);
+                    });
+                } else {
+                    autocompleteResults.style.display = 'none';
+                }
+            }
         });
 
         async function fetchProviders(query) {
@@ -220,21 +247,6 @@
                 provider_type: document.getElementById('type').value,
                 speciality: document.getElementById('speciality').value
             };
-        }
-
-        function showAutocompleteResults(results) {
-            const autocompleteResults = document.getElementById('autocomplete-results');
-            autocompleteResults.innerHTML = '';
-
-            results.forEach(result => {
-                const div = document.createElement('div');
-                div.textContent = result.provider_name;
-                div.addEventListener('click', () => {
-                    document.getElementById('provider_name').value = result.provider_name;
-                    autocompleteResults.innerHTML = '';
-                });
-                autocompleteResults.appendChild(div);
-            });
         }
     </script>
 {% endblock %}

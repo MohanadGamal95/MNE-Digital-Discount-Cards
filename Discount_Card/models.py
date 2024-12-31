@@ -3,6 +3,7 @@ from django.db import models
 from django.utils import timezone
 from datetime import timedelta
 from django.core.validators import RegexValidator, MinLengthValidator
+
 class User(AbstractUser):
     email = models.EmailField(unique=True)
     full_name = models.CharField(max_length=100)
