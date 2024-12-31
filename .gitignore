@@ -9,5 +9,5 @@ mne-ddc
 venv/
 migrations/
 uploads/
-requirements.txt
 .venv/
+.env
