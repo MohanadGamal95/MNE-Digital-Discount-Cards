@@ -10,3 +10,4 @@ venv/
 migrations/
 uploads/
 .venv/
+.env
