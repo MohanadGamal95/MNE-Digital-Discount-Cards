@@ -45,7 +45,6 @@ RUN pip install --no-cache-dir -U pip \
 COPY Discount_Card/ ./Discount_Card/
 COPY MNE/ ./MNE/
 COPY manage.py .
-COPY .env .
 COPY db.sqlite3 .
 
 ENV DEBUG=False
