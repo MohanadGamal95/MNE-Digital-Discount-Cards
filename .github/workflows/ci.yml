@@ -36,5 +36,4 @@ jobs:
       # Push the Docker image to Docker Hub
       - name: Push Docker image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/mne-discount-cards:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/mne-discount-cards:${{ github.sha }}
