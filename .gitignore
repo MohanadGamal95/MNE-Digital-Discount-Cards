@@ -2,9 +2,6 @@ __pycache__/
 *.pyc
 *.pyo
 mne-ddc
-*.db
-*.sqlite
-*.sqlite3
 *.log
 venv/
 migrations/
