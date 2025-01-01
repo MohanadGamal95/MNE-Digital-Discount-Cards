@@ -31,7 +31,7 @@ SECRET_KEY = env('SECRET_KEY', default='django-insecure-7k14sgy=&4qirw029g-1ch*p
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = env.bool('DEBUG', default=False)
+DEBUG = env.bool('DEBUG', default=True)
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
 
@@ -83,8 +83,8 @@ WSGI_APPLICATION = 'MNE.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': env('DATABASE_ENGINE', default='django.db.backends.mysql'),
-        'NAME': env('DATABASE_NAME'),
+        'ENGINE': env('DATABASE_ENGINE', default='django.db.backends.sqlite3'),
+        'NAME': env('DATABASE_NAME', default= BASE_DIR / 'db.sqlite3'),
         'USER': env('DATABASE_USER', default=''),
         'PASSWORD': env('DATABASE_PASSWORD', default=''),
         'HOST': env('DATABASE_HOST', default='localhost'),
@@ -147,13 +147,13 @@ STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'Discount_Card/static')]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-EMAIL_BACKEND = env('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend') 
-EMAIL_HOST = env('EMAIL_HOST') 
-EMAIL_PORT = env.int('EMAIL_PORT')
-EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
-EMAIL_HOST_USER = env('EMAIL_HOST_USER') 
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-SERVER_EMAIL = env('SERVER_EMAIL')
+# EMAIL_BACKEND = env('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend') 
+# EMAIL_HOST = env('EMAIL_HOST') 
+# EMAIL_PORT = env.int('EMAIL_PORT')
+# EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
+# EMAIL_HOST_USER = env('EMAIL_HOST_USER') 
+# EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+# SERVER_EMAIL = env('SERVER_EMAIL')
 
 
 MESSAGE_TAGS = {
