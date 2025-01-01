@@ -26,6 +26,7 @@ RUN apt-get update \
         shared-mime-info \
         mime-support \
         gcc \
+        pkg-config \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -37,14 +38,15 @@ ENV PATH="/opt/venv/bin:$PATH"
 COPY requirements.txt .
 RUN pip install --no-cache-dir -U pip \
     && pip install --no-cache-dir -r requirements.txt \
-    && pip install --no-cache-dir gunicorn==21.2.0
+    && pip install --no-cache-dir gunicorn==21.2.0 \
+    && pip install --no-cache-dir whitenoise==6.5.0
 
 # Copy project files
-# COPY Discount_Card/ ./Discount_Card/
-# COPY MNE/ ./MNE/
-# COPY manage.py .
-# COPY .env .
-COPY . .
+COPY Discount_Card/ ./Discount_Card/
+COPY MNE/ ./MNE/
+COPY manage.py .
+COPY .env .
+COPY db.sqlite3 .
 
 ENV DEBUG=False
 ENV ALLOWED_HOSTS='*'
