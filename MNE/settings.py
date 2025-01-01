@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -85,10 +86,10 @@ DATABASES = {
     'default': {
         'ENGINE': env('DATABASE_ENGINE', default='django.db.backends.mysql'),
         'NAME': env('DATABASE_NAME'),
-        'USER': env('DATABASE_USER', default=''),
-        'PASSWORD': env('DATABASE_PASSWORD', default=''),
-        'HOST': env('DATABASE_HOST', default='localhost'),
-        'PORT': env.int('DATABASE_PORT', default='5432'),
+        # 'USER': env('DATABASE_USER', default=''),
+        # 'PASSWORD': env('DATABASE_PASSWORD', default=''),
+        # 'HOST': env('DATABASE_HOST', default='localhost'),
+        # 'PORT': env.int('DATABASE_PORT', default='5432'),
     }
 }
 
@@ -138,8 +139,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'Discount_Card/static')]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
