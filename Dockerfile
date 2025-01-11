@@ -46,6 +46,8 @@ COPY Discount_Card/ ./Discount_Card/
 COPY MNE/ ./MNE/
 COPY manage.py .
 COPY db.sqlite3 .
+COPY staticfiles/ ./staticfiles/
+
 
 ENV DEBUG=False
 ENV ALLOWED_HOSTS='*'
