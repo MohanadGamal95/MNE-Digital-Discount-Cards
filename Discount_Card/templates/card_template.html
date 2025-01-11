@@ -9,9 +9,11 @@
     <title>Discount Card</title>
     <style>
 
-        .card-container {
+        .c-container {
             width: 350px;
             margin: 0 auto;
+            border: none !important;
+            outline: none !important;
         }
         .front, .back {
             background-size: contain;
@@ -50,7 +52,7 @@
 </head>
 <body>
     <p class="center-text">{{ current_time }}</p><br>
-    <div class="card-container">
+    <div class="c-container" style="border: none; outline: none;">
         <div class="card card-custom">
             <div class="front">     
                 <div class="card-body text-white">

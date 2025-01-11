@@ -76,6 +76,7 @@ def send_activation_email(user, request):
         last_email_sent = datetime.fromisoformat(last_email_sent)
         if now - last_email_sent < timedelta(minutes=10):
             raise ValueError("You can only request a new activation email once every 10 minutes.")
+            
 
     # Construct the activation URL
     activation_url = request.build_absolute_uri(
@@ -119,7 +120,7 @@ def resend_activation(request):
         messages.success(request, 'Activation email resent! Please check your email.')
     except ValueError as e:
         messages.error(request, str(e))
-        return redirect ('Discount_Card:register')
+        return redirect ('Discount_Card:email_not_verified')
 
     return redirect('Discount_Card:login')
 
