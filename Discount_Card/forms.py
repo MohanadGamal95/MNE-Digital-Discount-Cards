@@ -28,6 +28,12 @@ class RegistrationForm(UserCreationForm):
         validators=[RegexValidator(regex=r'^\+20\d{10}$')],
         label='Phone Number'
     )
+    national_id = forms.CharField(
+        required=True,
+        max_length=14,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Please enter your national ID/Passport'}),
+        label='National ID/Passport'
+    )
     full_name = forms.CharField(
         required=True,
         max_length=100,
@@ -45,7 +51,7 @@ class RegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'first_name', 'last_name', 'phone_number', 'password1', 'password2' )
+        fields = ('username', 'email', 'national_id', 'full_name', 'phone_number', 'password1', 'password2' )
 
     def clean_email(self):
         email = self.cleaned_data.get('email')

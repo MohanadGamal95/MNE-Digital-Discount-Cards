@@ -12,12 +12,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from django.contrib.messages import constants as message_constants
-from dotenv import load_dotenv
 from pathlib import Path
 import environ
 
-load_dotenv()
-
+#intialize environ .env file
 env = environ.Env()
 environ.Env.read_env()
 
@@ -29,9 +27,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-7k14sgy=&4qirw029g-1ch*p(^b7_&z^se2(mwc9_a3&mou$$d'
+SECRET_KEY = env('SECRET_KEY', default='django-insecure-7k14sgy=&4qirw029g-1ch*p(^b7_&z^se2(mwc9_a3&mou$$d')
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = env.bool('DEBUG', default=False)
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
@@ -50,6 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -173,3 +173,5 @@ MESSAGE_TAGS = {
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 CSRF_FAILURE_VIEW = 'Discount_Card.views.csrf_failure'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+

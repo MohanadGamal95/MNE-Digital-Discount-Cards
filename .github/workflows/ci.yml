@@ -1,0 +1,39 @@
+name: Build Image
+
+# Trigger the workflow manually (workflow_dispatch)
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to build Docker image from'
+        required: true
+        default: 'main'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner for CI jobs
+
+    steps:
+      # Checkout the repository's code from the selected branch
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.branch }}  # Checkout the branch selected manually
+
+      # Log in to Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}  # Docker Hub username
+          password: ${{ secrets.DOCKER_PASSWORD }}  # Docker Hub password or access token
+
+      # Build the Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/mne-discount-cards:latest .
+          docker tag ${{ secrets.DOCKER_USERNAME }}/mne-discount-cards:latest ${{ secrets.DOCKER_USERNAME }}/mne-discount-cards:${{ github.sha }}
+
+      # Push the Docker image to Docker Hub
+      - name: Push Docker image
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/mne-discount-cards:${{ github.sha }}
