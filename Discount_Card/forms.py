@@ -15,6 +15,12 @@ class RegistrationForm(UserCreationForm):
         widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'example@example.com'}),
         label='Email'
     )
+    national_id = forms.CharField(
+        required=True,
+        max_length=14,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Please enter your national ID/Passport'}),
+        label='National ID/Passport'
+    )
     phone_number = forms.CharField(
         required=True,
         max_length=14,
@@ -22,17 +28,11 @@ class RegistrationForm(UserCreationForm):
         validators=[RegexValidator(regex=r'^\+20\d{10}$')],
         label='Phone Number'
     )
-    first_name = forms.CharField(
+    full_name = forms.CharField(
         required=True,
-        max_length=30,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Mohammed'}),
-        label='First Name'
-    )
-    last_name = forms.CharField(
-    required=True,
-    max_length=30,
-    widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Mohammed Family'}),
-    label='Last Name'
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Please enter your full name'}),
+        label='Full Name'
     )
     password1 = forms.CharField(
         label = "Password",

@@ -2,15 +2,22 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
 from datetime import timedelta
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, MinLengthValidator
+
 class User(AbstractUser):
     email = models.EmailField(unique=True)
+    full_name = models.CharField(max_length=100)
+    national_id = models.CharField(
+        max_length=14,
+        unique=True,
+        validators=[MinLengthValidator(9)]
+    )
     phone_number = models.CharField(null=True, blank=True, max_length=14,
         validators=[RegexValidator(regex=r'^\+20\d{10}$')]
     )
     email_verified = models.BooleanField(default=False)
 
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'email']
+    REQUIRED_FIELDS = ['email', 'full_name', 'national_id']
     
     @property
     def member(self):
@@ -45,14 +52,11 @@ class Member(models.Model):
             models.Index(fields=['payment_status', 'valid_until'])
         ]
 
-    def full_name(self):
-        return f"{self.user.first_name} {self.user.last_name}"
-
     def active_subscription(self):
         return self.payment_status == 'verified' and (self.valid_until is None or self.valid_until >= timezone.now().date())
 
     def __str__(self):
-        return f"{self.full_name()} - {self.user.email}" 
+        return f"{self.user.full_name} - {self.user.email}" 
 
 class Coupon(models.Model):
     code = models.CharField(max_length=12)
@@ -102,19 +106,9 @@ class CouponUser(models.Model):
 class Network(models.Model):
     provider_code = models.CharField(max_length=8)
     provider_name = models.CharField(max_length=1000)
-    governate = models.CharField(max_length=64)
+    governorate = models.CharField(max_length=64)
     area = models.CharField(max_length=256)
-    PROVIDER_TYPES = [
-        ('C', 'Clinic'),
-        ('H', 'Hospital'),
-        ('L', 'Laboratory'),
-        ('S', ' Medical Supplies Company'),
-        ('O', 'Optics Shop'),
-        ('M', 'Pharmacy'),
-        ('Y', 'Physiotherapy Center'),
-        ('P', 'Poly Clinics')
-    ]
-    provider_type = models.CharField(max_length=64, choices=PROVIDER_TYPES)
+    provider_type = models.CharField(max_length=64)
     provider_specialty = models.CharField(max_length=256)
     address = models.TextField()
     longitude = models.DecimalField(max_digits=27, decimal_places=24)
@@ -123,3 +117,11 @@ class Network(models.Model):
 
     def __str__(self):
         return f"{self.provider_name} {self.provider_code}"
+
+
+class ExcelUpload(models.Model):
+    file = models.FileField(upload_to='uploads/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.file.name

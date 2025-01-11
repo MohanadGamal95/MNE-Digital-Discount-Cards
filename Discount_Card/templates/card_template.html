@@ -8,58 +8,70 @@
     <link href="{% static 'styles.css' %}" rel="stylesheet">
     <title>Discount Card</title>
     <style>
-        .card-custom {
-            background: linear-gradient(rgba(17, 143, 142, 1), rgba(9, 101, 133, 1));
+
+        .card-container {
+            width: 350px;
+            margin: 0 auto;
+        }
+        .front, .back {
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            text-align: left;
+            position: relative;
+            width: 100%;
+            height: 220px;
+
+            border-radius: 15px;
+            padding: 5px;
+        }
+        .front {
+            background-image: url('{{ cardfront_url }}');
+        }
+        .back {
+            background-image: url('{{ cardback_url }}');
+            margin-top: 20px;
+        }
+        .center-text {
+            text-align: center;
+        }
+        h2, p {
+            margin: 5px 0;
+        }
+        .text-white {
             color: white;
-            border: none;
-            border-radius: 0.25rem;
-            padding: 20px;
-            font-family: 'Inter', sans-serif;
         }
-        .card-custom .card-header,
-        .card-custom .card-footer {
-            font-family: 'Inter', sans-serif;
-            color: rgba(255, 255, 255, 1);
-            font-weight: 600;
+        .card-body {
+            padding-top: 70px !important; /* Add margin to the top of the card text */
         }
-        .card-custom .card-header {
-            font-size: 1.25rem;
-            margin-bottom: 15px;
-        }
-        .card-custom .card-text {
-            font-size: 1rem;
-        }
-        .card-custom .card-footer {
-            font-size: 0.75rem;
-            margin-top: 15px;
-            border-top: 1px solid #ddd;
-            padding-top: 10px;
-        }
-        .rtl-text {
-            direction: rtl;
-            text-align: right;
-        }
-        .text-muted {
-            opacity: 0.6;
+        .card-text {
+            font-size: 11px;
         }
     </style>
 </head>
 <body>
-    <div class="card card-custom">
-        <div class="card-header">
-            My Discount Card
-        </div>
-        <div class="card-body">
-            <p class="card-text">
-                <strong>Member Number:</strong> {{ member.id }}<br>
-                <strong>Name:</strong> {{ member.full_name }}<br>
-                <strong>Start Date:</strong> {{ member.start_date }}<br>
-                <strong>Expiry Date:</strong> {{ member.valid_until }}<br>
-                <span class="rtl-text">يتم تقديم الخدمة نقدًا طبقًا لأسعار التعاقد</span>
-            </p>
-        </div>
-        <div class="card-footer text-muted">
-            {{ current_time }}
+    <p class="center-text">{{ current_time }}</p><br>
+    <div class="card-container">
+        <div class="card card-custom">
+            <div class="front">     
+                <div class="card-body text-white">
+                    <p class="card-text center-text">
+                        <strong>{{ member.user.full_name }}</strong> 
+                    </p>
+                    <p class="card-text">
+                        <strong>Emp Code:</strong> {{ member.id }}
+                    </p>
+                    <p class="card-text">
+                        <strong>National ID/Passport:</strong> {{ member.user.national_id }}
+                    </p>
+                    <p class="rtl-text">يتم تقديم الخدمة نقدًا طبقًا لأسعار التعاقد</p>
+                    <p class="card-text">
+                        <strong>Start Date:</strong> {{ member.start_date }}<br>
+                        <strong>Expiry Date:</strong> {{ member.valid_until }}<br>
+                    </p> 
+                </div>
+            </div>
+            <div class="back"></div>
         </div>
     </div>
 </body>

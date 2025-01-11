@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, get_user_model, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.views.decorators.csrf import requires_csrf_token
+from django.http import HttpResponse, HttpResponseForbidden
 from .decorators import email_verified_required
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.views import LoginView
@@ -13,10 +14,11 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils import timezone
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
-from datetime import timedelta
+from datetime import timedelta, datetime
 from .forms import RegistrationForm
 from . import models
 from weasyprint import HTML
+
 
 
 def register(request):
@@ -53,7 +55,7 @@ class CustomLoginView(LoginView):
             messages.error(self.request, 'Please verify your email first')
             return redirect('Discount_Card:email_not_verified')
         else:
-            messages.success(self.request, f'Welcome, {user.first_name}!')
+            messages.success(self.request, f'Welcome, {user.full_name}!')
             return super().form_valid(form)  # Proceed with the normal flow (redirection)
 
     def form_invalid(self, form):
@@ -68,8 +70,10 @@ def send_activation_email(user, request):
     domain = get_current_site(request).domain
     now = timezone.now()
     last_email_sent = request.session.get('last_activation_email_sent') # Check if 10 minutes have passed since the last email
-    if last_email_sent and now - last_email_sent < timedelta(minutes=10):
-        raise ValueError("You can only request a new activation email once every 10 minutes.")
+    if last_email_sent:
+        last_email_sent = datetime.fromisoformat(last_email_sent)
+        if now - last_email_sent < timedelta(minutes=10):
+            raise ValueError("You can only request a new activation email once every 10 minutes.")
 
     # Construct the activation URL
     activation_url = request.build_absolute_uri(
@@ -159,10 +163,16 @@ def download_card_pdf(request, member_id):
 
     if member.user != request.user:
         return HttpResponseForbidden()
+    
+
+    cardfront_url = request.build_absolute_uri(settings.STATIC_URL+ 'cardfront.png')
+    cardback_url = request.build_absolute_uri(settings.STATIC_URL+ 'cardback.png')
 
     html = render_to_string('card_template.html', {
         'member': member,
-        'current_time': timezone.now() # Pass current time to the template })
+        'current_time': timezone.now(), # Pass current time to the template })
+        'cardfront_url': cardfront_url,
+        'cardback_url': cardback_url
     })
     pdf = HTML(string=html).write_pdf()
 
@@ -202,5 +212,10 @@ def payment(request):
         'member':member, 'message': message
     })
 
+
+@requires_csrf_token
+def csrf_failure(request, reason=""):
+    messages.error(request, "CSRF token missing or incorrect. Please try again.")
+    return redirect('Discount_Card:index')  # Redirect to homepage or any other page
 
 
