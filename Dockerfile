@@ -57,12 +57,12 @@ ENV DATABASE_PASSWORD="your_database_password"
 ENV DATABASE_HOST="your_database_host"
 ENV DATABASE_PORT="your_database_port"
 ENV EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
-ENV EMAIL_HOST='your_email_host'
-ENV EMAIL_PORT=587
+ENV EMAIL_HOST = 'smtp-mail.outlook.com'
+EMAIL_PORT = 587
 ENV EMAIL_USE_TLS=True
-ENV EMAIL_HOST_USER='your_email_user'
-ENV EMAIL_HOST_PASSWORD='your_email_password'
-ENV SERVER_EMAIL='your_server_email'
+ENV EMAIL_HOST_USER='noreply.test@mednet.com'
+ENV EMAIL_HOST_PASSWORD='d!$*2025'
+ENV SERVER_EMAIL='noreply.test@mednet.com'
 
 # Create static directory based on your settings
 RUN mkdir -p /app/static
