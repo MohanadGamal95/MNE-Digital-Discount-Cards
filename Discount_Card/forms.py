@@ -15,6 +15,12 @@ class RegistrationForm(UserCreationForm):
         widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'example@example.com'}),
         label='Email'
     )
+    national_id = forms.CharField(
+        required=True,
+        max_length=14,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Please enter your national ID/Passport'}),
+        label='National ID/Passport'
+    )
     phone_number = forms.CharField(
         required=True,
         max_length=14,

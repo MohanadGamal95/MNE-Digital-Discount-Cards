@@ -12,10 +12,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from django.contrib.messages import constants as message_constants
+from dotenv import load_dotenv
 from pathlib import Path
 import environ
 
-#intialize environ .env file
+load_dotenv()
+
 env = environ.Env()
 environ.Env.read_env()
 
@@ -30,7 +32,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY', default='django-insecure-7k14sgy=&4qirw029g-1ch*p(^b7_&z^se2(mwc9_a3&mou$$d')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-
 DEBUG = env.bool('DEBUG', default=False)
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
@@ -49,7 +50,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -84,12 +85,12 @@ WSGI_APPLICATION = 'MNE.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': env('DATABASE_ENGINE', default='django.db.backends.mysql'),
-        'NAME': env('DATABASE_NAME'),
-        # 'USER': env('DATABASE_USER', default=''),
-        # 'PASSWORD': env('DATABASE_PASSWORD', default=''),
-        # 'HOST': env('DATABASE_HOST', default='localhost'),
-        # 'PORT': env.int('DATABASE_PORT', default='5432'),
+        'ENGINE': env('DATABASE_ENGINE', default='django.db.backends.sqlite3'),
+        'NAME': env('DATABASE_NAME', default=BASE_DIR / 'db.sqlite3'),
+        'USER': env('DATABASE_USER', default=''),
+        'PASSWORD': env('DATABASE_PASSWORD', default=''),
+        'HOST': env('DATABASE_HOST', default=''),
+        'PORT': env.int('DATABASE_PORT', default=5432),
     }
 }
 
@@ -138,8 +139,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'Discount_Card/static')]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -166,5 +173,6 @@ MESSAGE_TAGS = {
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
+CSRF_FAILURE_VIEW = 'Discount_Card.views.csrf_failure'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 

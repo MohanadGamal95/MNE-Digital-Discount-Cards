@@ -8,23 +8,29 @@
     <link href="{% static 'styles.css' %}" rel="stylesheet">
     <title>Discount Card</title>
     <style>
-        .card-container {
-            width: 500px;
-            margin: auto;
+
+        .c-container {
+            width: 350px;
+            margin: 0 auto;
+            border: none !important;
+            outline: none !important;
         }
         .front, .back {
-            background-size: cover;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
             text-align: left;
             position: relative;
             width: 100%;
-            height: 200px;
+            height: 220px;
+            border-radius: 15px;
+            padding: 5px;
         }
         .front {
-            background-image: url('/static/cardfront.png');
-
+            background-image: url('{{ cardfront_url }}');
         }
         .back {
-            background-image: url('/static/cardback.png');
+            background-image: url('{{ cardback_url }}');
             margin-top: 20px;
         }
         .center-text {
@@ -46,26 +52,27 @@
 </head>
 <body>
     <p class="center-text">{{ current_time }}</p><br>
-    <div class="card card-custom">
-        <div class="front">
-            <div class="card-body text-white">
-                <p class="card-text center-text">
-                    <strong>{{ member.user.full_name }}</strong> 
-                </p>
-                <p class="card-text">
-                    <strong>Emp Code:</strong> {{ member.id }}
-                </p>
-                <p class="card-text">
-                    <strong>National ID/Passport:</strong> {{ member.user.national_id }}
-                </p>
-                <p class="rtl-text">يتم تقديم الخدمة نقدًا طبقًا لأسعار التعاقد</p>
-                <p class="card-text">
-                    <strong>Start Date:</strong> {{ member.start_date }}<br>
-                    <strong>Expiry Date:</strong> {{ member.valid_until }}<br>
-                </p> 
+    <div class="c-container" style="border: none; outline: none;">
+        <div class="card card-custom">
+            <div class="front">     
+                <div class="card-body text-white">
+                    <p class="card-text center-text">
+                        <strong>{{ member.user.full_name }}</strong> 
+                    </p>
+                    <p class="card-text">
+                        <strong>Emp Code:</strong> {{ member.id }}
+                    </p>
+                    <p class="card-text">
+                        <strong>National ID/Passport:</strong> {{ member.user.national_id }}
+                    </p>
+                    <p class="rtl-text">يتم تقديم الخدمة نقدًا طبقًا لأسعار التعاقد</p>
+                    <p class="card-text">
+                        <strong>Start Date:</strong> {{ member.start_date }}<br>
+                        <strong>Expiry Date:</strong> {{ member.valid_until }}<br>
+                    </p> 
+                </div>
             </div>
-        </div>
-        <div class="back">       
+            <div class="back"></div>
         </div>
     </div>
 </body>

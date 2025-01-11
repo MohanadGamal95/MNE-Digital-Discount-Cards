@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, get_user_model, authenticate, logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import requires_csrf_token
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from .decorators import email_verified_required
@@ -14,11 +15,12 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils import timezone
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
-from datetime import timedelta
+from datetime import timedelta, datetime
 import json
 from .forms import RegistrationForm
 from . import models
 from weasyprint import HTML
+
 
 
 def register(request):
@@ -70,8 +72,11 @@ def send_activation_email(user, request):
     domain = get_current_site(request).domain
     now = timezone.now()
     last_email_sent = request.session.get('last_activation_email_sent') # Check if 10 minutes have passed since the last email
-    if last_email_sent and now - last_email_sent < timedelta(minutes=10):
-        raise ValueError("You can only request a new activation email once every 10 minutes.")
+    if last_email_sent:
+        last_email_sent = datetime.fromisoformat(last_email_sent)
+        if now - last_email_sent < timedelta(minutes=10):
+            raise ValueError("You can only request a new activation email once every 10 minutes.")
+            
 
     # Construct the activation URL
     activation_url = request.build_absolute_uri(
@@ -115,7 +120,7 @@ def resend_activation(request):
         messages.success(request, 'Activation email resent! Please check your email.')
     except ValueError as e:
         messages.error(request, str(e))
-        return redirect ('Discount_Card:register')
+        return redirect ('Discount_Card:email_not_verified')
 
     return redirect('Discount_Card:login')
 
@@ -161,10 +166,16 @@ def download_card_pdf(request, member_id):
 
     if member.user != request.user:
         return HttpResponseForbidden()
+    
+
+    cardfront_url = request.build_absolute_uri(settings.STATIC_URL+ 'cardfront.png')
+    cardback_url = request.build_absolute_uri(settings.STATIC_URL+ 'cardback.png')
 
     html = render_to_string('card_template.html', {
         'member': member,
-        'current_time': timezone.now() # Pass current time to the template })
+        'current_time': timezone.now(), # Pass current time to the template })
+        'cardfront_url': cardfront_url,
+        'cardback_url': cardback_url
     })
     pdf = HTML(string=html, base_url=request.build_absolute_uri('/')).write_pdf()
 
@@ -247,5 +258,10 @@ def payment(request):
         'member':member, 'message': message
     })
 
+
+@requires_csrf_token
+def csrf_failure(request, reason=""):
+    messages.error(request, "CSRF token missing or incorrect. Please try again.")
+    return redirect('Discount_Card:index')  # Redirect to homepage or any other page
 
 
