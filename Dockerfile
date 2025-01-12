@@ -85,12 +85,11 @@ EXPOSE 8000
 
 # Start Gunicorn with appropriate settings
 CMD ["gunicorn", \
-     "--bind", "0.0.0.0:8000", \
+     "--bind", "0.0.0.0:8000", "MNE.wsgi:application", \
      "--workers", "3", \
      "--worker-class", "gthread", \
      "--threads", "3", \
      "--timeout", "60", \
      "--access-logfile", "-", \
      "--error-logfile", "-", \
-     "--reload", \
-     "MNE.wsgi:application"]
+     "--reload"]
