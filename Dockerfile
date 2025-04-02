@@ -45,36 +45,20 @@ RUN pip install --no-cache-dir -U pip \
 COPY Discount_Card/ ./Discount_Card/
 COPY MNE/ ./MNE/
 COPY manage.py .
-COPY db.sqlite3 .
 COPY staticfiles/ ./staticfiles/
-
-
-ENV DEBUG=False
-ENV ALLOWED_HOSTS='*'
-ENV SECRET_KEY='your-secret-key'
-ENV DATABASE_ENGINE="django.db.backends.mysql"
-ENV DATABASE_NAME="digitaldiscountdb"
-ENV DATABASE_USER="mgdbadmin"
-ENV DATABASE_PASSWORD="mg#pr0jectdb"
-ENV DATABASE_HOST="10.50.0.21"
-ENV DATABASE_PORT=3306
-ENV EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
-ENV EMAIL_HOST='smtp-mail.outlook.com'
-ENV EMAIL_PORT=587
-ENV EMAIL_USE_TLS=True
-ENV EMAIL_HOST_USER='noreply.test@mednet.com'
-ENV EMAIL_HOST_PASSWORD='d!$*2025'
-ENV SERVER_EMAIL='noreply.test@mednet.com'
-
-# Create static directory based on your settings
-RUN mkdir -p /app/static
-
-# Set permissions
-RUN chown -R root:root /app && \
-    chmod -R 755 /app
 
 # Collect static files
 RUN python manage.py collectstatic --noinput
+
+
+# # Create static directory based on your settings
+# RUN mkdir -p /app/static
+
+# # Set permissions
+# RUN chown -R root:root /app && \
+#     chmod -R 755 /app
+
+
 
 # Create and switch to non-root user
 RUN useradd -m appuser && \
