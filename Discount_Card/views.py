@@ -28,7 +28,10 @@ def register(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             #Create user but logged out
-            user = form.save()
+            user = form.save(commit=False)
+            user.email = form.cleaned_data['email'].lower()
+            user.username = form.cleaned_data['username'].lower()
+            user.save()
             models.Member.objects.create(user=user)
             send_activation_email(user, request)
 
@@ -50,6 +53,17 @@ def register(request):
 #login
 class CustomLoginView(LoginView):
     template_name = 'login.html'
+
+    def get_form(self, form_class=None):
+        try:
+            form = super().get_form(form_class)
+            if 'username' in form.fields:
+                form.data = form.data.copy()
+                form.data['username'] = form.data['username'].lower()
+            return form
+        except Exception:
+            return form
+    
     def form_valid(self, form):
         user = form.get_user()
         login(self.request, user)
@@ -59,6 +73,7 @@ class CustomLoginView(LoginView):
         else:
             messages.success(self.request, f'Welcome, {user.full_name}!')
             return super().form_valid(form)  # Proceed with the normal flow (redirection)
+
 
     def form_invalid(self, form):
         # You can add error messages after an invalid login attempt
@@ -126,7 +141,6 @@ def resend_activation(request):
 
 #verification required
 def email_not_verified(request):
-    print(request)
     return render(request, 'email_not_verified.html')
 
 
@@ -150,7 +164,7 @@ def index(request):
         member = None
         member_active_subscription = None
     current_time = timezone.now()
-    print(request)
+    
     return render(request, 'index.html', {
         'user': request.user,
         'member':member,
@@ -245,14 +259,14 @@ def payment(request):
         code = request.POST.get('coupon_code')
         try:
             coupon = models.Coupon.objects.get(code=code, active=True)
-            print(f"Coupon found: {coupon.code}, valid_to: {coupon.valid_to}, today: {timezone.localdate()}")  # Debugging line
+            
             coupon.use_coupon(request.user)
             message = "Code applied successfully!"
             return redirect('Discount_Card:index')
         except ValueError as e:
             message = str(e)
         except models.Coupon.DoesNotExist:
-            print(f"Coupon not found or invalid.")  # Debugging line
+            
             message = "Invalid code"
     return render(request, 'payment.html',{
         'member':member, 'message': message
