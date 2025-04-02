@@ -85,12 +85,12 @@ WSGI_APPLICATION = 'MNE.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': env('DATABASE_ENGINE', default='django.db.backends.sqlite3'),
-        'NAME': env('DATABASE_NAME', default=BASE_DIR / 'db.sqlite3'),
-        'USER': env('DATABASE_USER', default=''),
-        'PASSWORD': env('DATABASE_PASSWORD', default=''),
-        'HOST': env('DATABASE_HOST', default=''),
-        'PORT': env.int('DATABASE_PORT', default=5432),
+        'ENGINE': env('DATABASE_ENGINE', default='django.db.backends.mysql'),
+        'NAME': env('DATABASE_NAME', default='digitaldiscountdb'),
+        'USER': env('DATABASE_USER', default='mgdbadmin'),
+        'PASSWORD': env('DATABASE_PASSWORD', default='mg#pr0jectdb'),
+        'HOST': env('DATABASE_HOST', default='10.50.0.21'),
+        'PORT': env.int('DATABASE_PORT', default=3306),
     }
 }
 
@@ -175,4 +175,12 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 CSRF_FAILURE_VIEW = 'Discount_Card.views.csrf_failure'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+SECURE_SSL_REDIRECT = True  # Redirect HTTP to HTTPS
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'  # Prevent clickjacking attacks
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 

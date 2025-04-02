@@ -74,7 +74,7 @@ RUN chown -R root:root /app && \
     chmod -R 755 /app
 
 # Collect static files
-# RUN python manage.py collectstatic --noinput
+RUN python manage.py collectstatic --noinput
 
 # Create and switch to non-root user
 RUN useradd -m appuser && \
