@@ -64,9 +64,9 @@ RUN python manage.py collectstatic --noinput
 
 
 # Create and switch to non-root user
-RUN useradd -m appuser && \
-    chown -R appuser:appuser /app /opt/venv /app/static
-USER appuser
+RUN useradd -m -u 1000 -g 1000 diginet && \
+    chown -R diginet:diginet /app /opt/venv /app/staticfiles
+USER diginet
 
 EXPOSE 8000
 
