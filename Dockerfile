@@ -42,7 +42,7 @@ RUN pip install --no-cache-dir -U pip \
     && pip install --no-cache-dir whitenoise==6.5.0
 
 # Copy the .env file
-COPY .env /app/.env
+COPY .env .
 
 # Copy project files
 COPY Discount_Card/ ./Discount_Card/
